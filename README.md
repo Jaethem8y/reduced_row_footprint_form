@@ -8,6 +8,9 @@ Following are the citations of the paper that are additionally used
 The PNML files are from MCC 2025
 - https://mcc.lip6.fr/2025/
 
+-----
+# ORIGINAL README BELOW
+
 # reduced_row_footprint_form
 This repository hosts a simple Python code that computed the *reduced row footprint form of* (RRFF) a matrix.
 The RREF is similar to the *reduced row echelon form* (RREF), with the difference that
