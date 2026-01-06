@@ -1,3 +1,13 @@
+# Modify Dr. Amparore's footprint method to be used with safe petri nets read from PNML
+Following are the citations of the paper that are additionally used
+
+- Amparore, Elvio G., Gianfranco Ciardo, and Andrew S. Miner. "The footprint form of a matrix: definition, properties, and an application." Linear Algebra and its Applications 651 (2022): 209-229.
+
+- Amparore, Elvio Gilberto, et al. "i: A Variable Order Metric for DEDS Subject to Linear Invariants." International Conference on Tools and Algorithms for the Construction and Analysis of Systems. Cham: Springer International Publishing, 2019.
+
+The PNML files are from MCC 2025
+- https://mcc.lip6.fr/2025/
+
 # reduced_row_footprint_form
 This repository hosts a simple Python code that computed the *reduced row footprint form of* (RRFF) a matrix.
 The RREF is similar to the *reduced row echelon form* (RREF), with the difference that
