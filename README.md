@@ -1,5 +1,8 @@
-# Modify Dr. Amparore's et als footprint method to be used with safe petri nets read from PNML
-Following are the citations of the paper that are additionally used
+# NOTE
+
+This code contains Dr. Amparore code and ported version of Dr. Andrew Miner's code for calculating invariants of Petri Nets.
+
+In additions, following are the citations of the paper that are additionally used
 
 - Amparore, Elvio G., Gianfranco Ciardo, and Andrew S. Miner. "The footprint form of a matrix: definition, properties, and an application." Linear Algebra and its Applications 651 (2022): 209-229.
 
