@@ -1,14 +1,17 @@
-import numpy as np
-
 import math
 import sys
 import xml.etree.ElementTree as ET
 import os
 import pprint
 
+import numpy as np
+
 M = 0
 N = 0
-MATRIX = [[]]
+C = None
+MATRIX = None 
+BASIS = None
+F = None
 
 def gcd(a, b):
     if (a == b): return a
@@ -52,8 +55,7 @@ def normalizeRow(row):
         row[i] //= g
 
 def matrixElimination():
-    print("initial")
-    dumpMatrix(MATRIX)
+    # dumpMatrix(MATRIX)
 
     for t in range(N):
         row = -1
@@ -70,16 +72,28 @@ def matrixElimination():
         
         MATRIX[row] = False
 
-    dumpMatrix(MATRIX)
+        # dumpMatrix(MATRIX)
 
     for r in range(M):
         normalizeRow(MATRIX[r])
+
+    # dumpMatrix(MATRIX)
+
+    final = []
+    for i in range(M):
+        if MATRIX[i]:
+            final.append(MATRIX[i])
     
-    print("\nThis is final:\n")
-    dumpMatrix(MATRIX)
+    final = np.array(final)
+    final = final[:,-M:]
+
+    global BASIS
+    BASIS = final
+    
+    # dumpMatrix(MATRIX)
 
 def dumpMatrix(matrix):
-    for i in range(M):
+    for i in range(len(matrix)):
         if not matrix[i]: 
             print("[null]")
         else:
@@ -91,6 +105,9 @@ def dumpMatrix(matrix):
                 print(f" {matrix[i][j]} ", end="")
             print("]")
     print()
+
+# --------------------------------------------------------------
+# --------------------------------------------------------------
 
 def leading(row):
     for i,v in enumerate(row):
@@ -216,10 +233,12 @@ def example():
     print("------------------------------")
 
 def createMatrix(filename):
-    root = "/Users/jaehyeokchoi/Desktop/cesr-safe-pnml/"
+    # root = "/Users/jaehyeokchoi/Desktop/cesr-safe-pnml/"
 # Parse PNML file
     try:
-        tree = ET.parse(root + filename)
+        # tree = ET.parse(root + filename)
+        tree = ET.parse(filename)
+
         root = tree.getroot()
 
         outfile_name = os.path.basename(filename)
@@ -256,10 +275,9 @@ def createMatrix(filename):
         input_arc = {}
         output_arc = {}
         
-        global PLACES
-        PLACES = num_places
-        global TRANS
-        TRANS = num_transitions
+        global M, N, C, MATRIX
+        M = num_places
+        N = num_transitions
 
         Cm = np.zeros((num_places, num_transitions), dtype=int)
         Cp = np.zeros((num_places, num_transitions), dtype=int)
@@ -283,10 +301,14 @@ def createMatrix(filename):
                     output_arc[source].append(target)
         
         C = Cp + Cm
-        I = np.eye(num_places)
+        
+        I = np.eye(num_places, dtype=int)
 
         global MATRIX
-        MATRIX = np.hstack((C,I))
+        MATRIX = np.hstack((C,I)).tolist()
+
+        # print(MATRIX)
+        
 
         # This is for output file BRAVE_DD we don't care about this yet
         # file_path = f"{outfile_name}.txt"
@@ -336,21 +358,47 @@ def createMatrix(filename):
         print("Error creating Matrix:", e)
         return
 
+def test(basis):
+    for base in basis:
+        res = base @ C
+        for i in range(res.shape[0]):
+            if res[i] != 0:
+                print("Test Failed")
+                break
+
 def main():
     if len(sys.argv) < 2:
         print("Usage: python main.py <xml_file>")
         return
     
     createMatrix(sys.argv[1])
+
+
+    matrixElimination()
+    test(BASIS)
+
+    print("# of places: ", M)
+    print("# of transitions: ", N)
+
+    # print(BASIS.T)
+
+
+    print("BASIS shape: ", BASIS.T.shape)
+    irank = 0
+    rank_f = np.linalg.matrix_rank(BASIS.T)
+    for k in range(M):
+        pup = np.linalg.matrix_rank(BASIS.T[0 : k + 2,])
+        pdown = rank_f - np.linalg.matrix_rank(BASIS.T[k:])
+        irank += (pup - pdown)
     
-    final = []
-    for i in range(len(MATRIX)):
-        print(f"This is matrix[i]: ", MATRIX[i])
-        if MATRIX[i]:
-            final.append(MATRIX[i])
+    print("irank: ", irank)
     
-    print("This is final")
-    dumpMatrix(final)
+    # F = rrff(C.T)
+    # print(F)
+
+    # test(F.T)
+
+
 
 if __name__ == "__main__":
     main()
