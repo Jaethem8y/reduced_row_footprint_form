@@ -384,6 +384,8 @@ def main():
 
 
     print("BASIS shape: ", BASIS.T.shape)
+
+    # Note that paper start from row L but here Lth row is 0 and 1st row is M -1
     irank = 0
     rank_f = np.linalg.matrix_rank(BASIS.T)
     for k in range(M):
