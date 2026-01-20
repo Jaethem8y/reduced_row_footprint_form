@@ -63,8 +63,11 @@ def main():
     aug = np.hstack((C,np.eye(M, dtype=int))).tolist()
 
     basis = matrixElimination(aug, M, N)
+    test(basis, C)
+    
     new = rrff(basis)
- 
+    test(new, C)
+
     iRank = computeiRank(new)
     print(iRank)
 
