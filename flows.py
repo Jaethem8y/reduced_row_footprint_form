@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 import numpy as np
+import sys
 
 M = None
 N = None
@@ -50,7 +51,7 @@ def matrixElimination(aug, m, n):
 
     M = m
     N = n
-    
+
     for t in range(N):
         row = -1
         for p in range(M-1, -1, -1):
@@ -115,8 +116,10 @@ def createMatrix(filename):
             initial_marking_node = places_nodes[i].find(f"{{{ns_uri}}}initialMarking/{{{ns_uri}}}text")
             initial_marking = initial_marking_node.text if initial_marking_node is not None else None
             if initial_marking is not None:
-                initial_markings.append(i+1)
-
+                initial_markings.append(1)
+            else:
+                initial_markings.append(0)
+            
         # Transitions
         transitions_nodes = root.findall(f".//{{{ns_uri}}}transition")
         transitions_dic = {}
@@ -157,15 +160,8 @@ def createMatrix(filename):
                 else:
                     output_arc[source].append(target)
         
-        C = Cp + Cm
-
-        return C, M, N
-        
-        I = np.eye(num_places, dtype=int)
-
-        return np.hstack((C,I)).tolist()
-
+        return Cp, Cm, M, N, initial_markings
     
     except Exception as e:
         print("Error creating Matrix:", e)
-        return
+        sys.exit(1)
