@@ -1,10 +1,12 @@
 import sys
 import numpy as np
 from pathlib import Path
+import pprint
 
 from flows import createMatrix, matrixElimination
 from footprint import rrff
-
+from metrics import PTS, PSF, SOUPS, meta_heuristic
+from heuristics import Gradient, FORCE, SLOAN, ExpPSemiFlows
 
 Cpfinal = None
 Cmfinal = None
@@ -173,15 +175,18 @@ def main():
     # Cp and Cm are M x N matrices M = |P|, N = |T|
     Cp, Cm, M, N, initialMarking = createMatrix(sys.argv[1])
 
+    PTS(Cm, Cp)
+
     # print(M, N)
     # getRRFF(Cp + Cm)
-    # computeiRank(getRRFF(Cp + Cm))
+    computeiRank(getRRFF(Cp + Cm))
 
+    #Look at this again, permutation matrix is the V_RND.
     perm = np.random.permutation(M)
     I = np.eye(M, dtype=int)
     P = I[perm]
 
-    # print(computeiRank(getRRFF(Cp+Cm)))
+    print(computeiRank(getRRFF(Cp+Cm)))
 
     # simmulatedAnnealing(Cp, Cm, P)
     # cp_o, cm_o = simmulatedAnnealing(Cp, Cm, I)
@@ -196,6 +201,7 @@ def main():
     # print(iRank)
     # print(M, N)
 
+    #TEST SECTION FOR PSF AND EXPSEMIFLOWS
 
 if __name__ == "__main__":
     main()
