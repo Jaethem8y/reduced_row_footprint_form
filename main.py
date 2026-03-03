@@ -165,6 +165,7 @@ def createFile(filename, cp, cm, marking):
                     f.write("0 ")
             f.write("\n")
         f.write("done")
+        
 def main():
     if len(sys.argv) < 2:
         print("Usage: python main.py <xml_file>")

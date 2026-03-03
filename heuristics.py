@@ -85,6 +85,15 @@ def ExpPSemiFlows(Cm, Cp):
                 AMat = np.vstack((AMat, AddedRow))
 
     AMat  = AMat[:, len(IncMat[0]):]
+
+    # Ok instead of writing test for it, this code will work as a 'Assertion' 
+    # If the computation fails, it will tell you. 
+    # This is more robust compare to just having a test - which only fails when test runs
+    for i in range(len(AMat)):
+        if not (np.all(AMat[i].T @ IncMat == 0)):
+            print("P-Semiflow computation failed.")
+            exit(0)          
+        
     return AMat
 
 def main():
