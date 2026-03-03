@@ -3,6 +3,9 @@ import numpy as np
 import math
 from metrics import PSF
 
+# this is only needed for testing
+from flows import createMatrix
+
 def Gradient():
 
     return 0
@@ -28,17 +31,18 @@ def ExpPSemiFlows(Cm, Cp):
 
     AMat = np.hstack((IncMat, IdentityMat))
 
-    AMatPos = np.empty((0,13))
+    M, N = Cm.shape
+    AMatPos = np.empty((0, M + N))
 
-    AMatNeg = np.empty((0,13))
+    AMatNeg = np.empty((0, M + N))
 
     for i in range(len(Cm[0])):
         j = 0
 
         #I think I need to reset the values for AMatPos and AMatNeg
-        AMatPos = np.empty((0,13))
+        AMatPos = np.empty((0, M + N))
 
-        AMatNeg = np.empty((0,13))
+        AMatNeg = np.empty((0, M + N))
 
         while j < len(AMat):
             
@@ -108,5 +112,12 @@ def main():
     print(PSF(ExpPSemiFlows(Cm, Cp)))
 
 
+# Tested with raft files, works just fine :)
+# def test():
+    # Cp, Cm, M, N, i = createMatrix("./Raft/PT/raft_10.pnml")
+    
+    # ExpPSemiFlows(Cm, Cp)
+
 if __name__ == "__main__":
-    main()
+    # main()
+    test()
