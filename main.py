@@ -134,10 +134,10 @@ def simmulatedAnnealing(cp0, cm0, p0):
         if (T < 1): break
     return mincp, mincm
 
-def createFile(filename, cp, cm, marking):
+def createFile(filename, cp, cm, marking, outdir):
     out = Path(filename).stem
 
-    with open(f"txt/{out}.txt", "w") as f:
+    with open(f"/Users/jaehyeokchoi/Desktop/pns/{outdir}/{out}.txt", "w") as f:
         f.write("initial-marking\n")
         for i in range(len(marking)):
             f.write(f"{marking[i]} ")
@@ -164,7 +164,7 @@ def createFile(filename, cp, cm, marking):
             f.write("\n")
         f.write("done")
 def main():
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 3:
         print("Usage: python main.py <xml_file>")
         return
     
@@ -188,7 +188,7 @@ def main():
 
     # createFile(sys.argv[1], cp_o, cm_o, initialMarking)
     print(M, N)
-    createFile(sys.argv[1], Cp, Cm, initialMarking)
+    createFile(sys.argv[1], Cp, Cm, initialMarking, sys.argv[2])
     
     # rrff = getRRFF(Cp + Cm)
 
