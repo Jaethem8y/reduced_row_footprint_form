@@ -116,7 +116,10 @@ def createMatrix(filename):
             initial_marking_node = places_nodes[i].find(f"{{{ns_uri}}}initialMarking/{{{ns_uri}}}text")
             initial_marking = initial_marking_node.text if initial_marking_node is not None else None
             if initial_marking is not None:
-                initial_markings.append(1)
+                if initial_marking == 1 or initial_marking == "1":
+                    initial_markings.append(1)
+                else:
+                    initial_markings.append(0)
             else:
                 initial_markings.append(0)
             

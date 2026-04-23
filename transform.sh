@@ -7,6 +7,6 @@ for dir in "$BASE"/*/; do
 	mkdir -p /Users/jaehyeokchoi/Desktop/pns/"$outdir"
 
 	for file in "$dir"/PT/*; do
-		python main.py $file $outdir
+		python main.py $file $outdir 
 	done
 done
