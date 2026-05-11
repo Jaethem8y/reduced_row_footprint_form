@@ -5,13 +5,11 @@ from pathlib import Path
 from flows import createMatrix, matrixElimination
 from footprint import rrff
 
-
 Cpfinal = None
 Cmfinal = None
 
 M = None
 N = None
-
 
 def createFile(filename, cp, cm, marking, outdir):
     out = Path(filename).stem
@@ -50,5 +48,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
-    
